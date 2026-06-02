@@ -1,6 +1,5 @@
 import requests
 
-
 def get_grid(city):
 
     url = "https://geocoding-api.open-meteo.com/v1/search"
@@ -32,7 +31,6 @@ def get_weather(lat,lon):
         }
     response=requests.get(url,params=params)
     data=response.json()
-    print(data)
     print("temperature (Celsius): ",data["current_weather"]["temperature"])
     return
 
