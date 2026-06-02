@@ -10,7 +10,7 @@ def get_grid(city):
     }
 
     response = requests.get(url, params=params)
-
+    
     data = response.json()
 
     if "results" not in data:
@@ -30,14 +30,22 @@ def get_weather(lat,lon):
         "current_weather":True
         }
     response=requests.get(url,params=params)
+    if response.status_code != 200:
+        print("Request failed")
+        print(response.status_code)
+        return
     data=response.json()
-    print("temperature (Celsius): ",data["current_weather"]["temperature"])
+    temp = data["current_weather"]["temperature"]
+    ftemp = temp*9/5+32
+    print(f"Temperature: {temp}°C/{ftemp}°F")
     return
-
 
 def main():
     city = input("City: ")
-    lat,lon=get_grid(city)
+    coords=get_grid(city)
+    if coords is None:
+        return
+    lat,lon = coords
     get_weather(lat,lon)
     
 main()
