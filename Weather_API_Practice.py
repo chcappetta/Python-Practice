@@ -31,14 +31,11 @@ def get_weather(lat,lon):
         }
     response=requests.get(url,params=params)
     if response.status_code != 200:
-        print("Request failed")
-        print(response.status_code)
-        return
+        return None
     data=response.json()
     temp = data["current_weather"]["temperature"]
     ftemp = temp*9/5+32
-    print(f"Temperature: {temp}°C/{ftemp}°F")
-    return
+    return ftemp
 
 def main():
     city = input("City: ")
@@ -48,4 +45,16 @@ def main():
     lat,lon = coords
     get_weather(lat,lon)
     
-main()
+
+def weather_tool(city):
+    coords = get_grid(city)
+
+    if coords is None:
+        return "City not found."
+    lat, lon = coords
+    weather = get_weather(lat, lon)
+
+    if weather is None:
+        return "Weather service unavailable."
+    
+    return f"Temperature in {city}: {weather}°F"
