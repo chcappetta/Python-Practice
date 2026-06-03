@@ -53,3 +53,22 @@ def calculator_script():
             print()
             print(f"{num1} % {num2} = {modulo(int(num1),int(num2))}")
             continue
+
+def calculator_tool(x, op, y):
+
+    if op == "+":
+        return addition(x, y)
+
+    if op == "-":
+        return subtraction(x, y)
+
+    if op == "*":
+        return multiplication(x, y)
+
+    if op == "/":
+        return division(x, y)
+
+    if op == "%":
+        return modulo(x, y)
+
+    return None
