@@ -1,14 +1,11 @@
 from openrouter import OpenRouter
 import os
-from Weather_API_Practice import weather_tool
-from calculator import calculator_script
+from tools.registry import TOOLS
 
-def ai_response(messages):  
-    with OpenRouter(api_key= KEY) as client:
-        response = client.chat.send(
-            model="poolside/laguna-m.1:free",
-            messages= messages
-    )
+def ai_response(client, messages):  
+    response = client.chat.send(
+        model="poolside/laguna-m.1:free",
+        messages= messages)
     output = response.choices[0].message.content
     return output
 
@@ -24,7 +21,7 @@ def main():
         ai_name = input("My New Name: ")
         print(f"{ai_name}: Awesome choice! I love my new name.")
     print() 
-    print(f"{ai_name}: What would you like to ask me? I can give you temperature with /weather. Type Quit to exit")
+    print(f"{ai_name}: What would you like to ask me? I can give you temperature with /weather <city>, open calculator with /calc, and quick math with /math <num1> <+,-,*,/,%> <num2>. Type Quit to exit")
     print()
     messages = [
         {
@@ -40,10 +37,20 @@ def main():
             city = input(f"{ai_name}: Please pick a city: ")
             print()
             print(f"{ai_name}: Thinking...")
+            print()
             print(f"{ai_name}:", weather_tool(city))
             print()
             continue
-        if "/calculator" in prompt.lower():
+        if "/math" in prompt.lower():
+            parts = prompt.split()
+            x= int(parts[1])
+            op= parts[2]
+            y= int(parts[3])
+            print()
+            print(f"{ai_name}: {calculator_tool(x,op,y)}")
+            print()
+            continue
+        if "/calc" in prompt.lower():
             calculator_script()
             continue
         print()
@@ -52,8 +59,9 @@ def main():
             "content": prompt
         })
         print(f"{ai_name}: Thinking...")
+        client = OpenRouter(KEY)
         try:
-            output = ai_response(messages)
+            output = ai_response(client, messages)
         except Exception as e:
             output = f"Sorry, AI is unavailable: {e}. Other tools still available."
         print(f"{ai_name}:", output)
