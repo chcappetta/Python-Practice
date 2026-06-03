@@ -50,11 +50,19 @@ def weather_tool(city):
     coords = get_grid(city)
 
     if coords is None:
-        return "City not found."
+        return
     lat, lon = coords
     weather = get_weather(lat, lon)
 
     if weather is None:
         return "Weather service unavailable."
     
-    return f"Temperature in {city}: {weather}°F"
+    return f"The temperature in {city} is {weather}°F."
+
+def weather_script(ai_name):
+    city = input(f"{ai_name}: Please pick a city: ")
+    print()
+    print(f"{ai_name}: Thinking...")
+    print()
+    print(f"{ai_name}:", weather_tool(city))
+    print()
