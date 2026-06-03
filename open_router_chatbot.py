@@ -1,6 +1,7 @@
 from openrouter import OpenRouter
 import os
-from tools.registry import TOOLS
+from tools.calculator import calc_script
+from tools.weather import weather_script
 
 def ai_response(client, messages):  
     response = client.chat.send(
@@ -34,24 +35,13 @@ def main():
         if prompt.lower() == "quit":
             break
         if "/weather" in prompt.lower():
-            city = input(f"{ai_name}: Please pick a city: ")
-            print()
-            print(f"{ai_name}: Thinking...")
-            print()
-            print(f"{ai_name}:", weather_tool(city))
-            print()
+            weather_script(ai_name)
             continue
         if "/math" in prompt.lower():
-            parts = prompt.split()
-            x= int(parts[1])
-            op= parts[2]
-            y= int(parts[3])
-            print()
-            print(f"{ai_name}: {calculator_tool(x,op,y)}")
-            print()
+            calc_script(ai_name, "quick")
             continue
         if "/calc" in prompt.lower():
-            calculator_script()
+            calc_script(ai_name, "full")
             continue
         print()
         messages.append({
