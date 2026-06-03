@@ -13,8 +13,8 @@ def addition(x,y):
 def subtraction(x,y):
     return x-y
 
-def calculator_script():
-    print("Welcome to Simple Calculator. Enter Exit to return.")
+def full_calc(ai_name):
+    print(f"Welcome to Simple Calculator. Enter Exit to return to {ai_name}.")
     while True:
         print()
         func = input(f"Choose a function: +,-,*,/,% : ")
@@ -54,7 +54,7 @@ def calculator_script():
             print(f"{num1} % {num2} = {modulo(int(num1),int(num2))}")
             continue
 
-def calculator_tool(x, op, y):
+def quick_math(x,op,y):
 
     if op == "+":
         return addition(x, y)
@@ -72,3 +72,16 @@ def calculator_tool(x, op, y):
         return modulo(x, y)
 
     return None
+
+def calc_script(ai_name, type):
+    if type == "quick":
+        equation = input(f"{ai_name}: Please enter your equation <num1> <+,-,*,/,%> <num2>: ")
+        parts = equation.split()
+        x= int(parts[0])
+        op= parts[1]
+        y= int(parts[2])
+        print()
+        print(f"{ai_name}: {x}{op}{y} = {quick_math(x,op,y)}")
+        print()
+    if type == "full":
+        full_calc(ai_name)
