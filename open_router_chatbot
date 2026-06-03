@@ -1,6 +1,7 @@
 from openrouter import OpenRouter
 import os
 from Weather_API_Practice import weather_tool
+from calculator import calculator_script
 
 def ai_response(messages):  
     with OpenRouter(api_key= KEY) as client:
@@ -41,6 +42,9 @@ def main():
             print(f"{ai_name}: Thinking...")
             print(f"{ai_name}:", weather_tool(city))
             print()
+            continue
+        if "/calculator" in prompt.lower():
+            calculator_script()
             continue
         print()
         messages.append({
